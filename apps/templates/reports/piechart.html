@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Pie Chart Example</title>
+  <!-- Bootstrap CSS link -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-8">
+        <div id="pieChart"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Highcharts script -->
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/highcharts-3d.js"></script>
+  <script>
+    // Sample data for the 3D pie chart
+    const data = [{
+      type: 'pie',
+      name: 'Browser share',
+      data: [
+        ['Chrome', 45.0],
+        ['Firefox', 26.8],
+        ['IE', 12.8],
+        ['Safari', 8.5],
+        ['Edge', 6.2],
+        ['Other', 0.7]
+      ]
+    }];
+
+    // 3D pie chart configuration
+    const config = {
+      chart: {
+        renderTo: 'pieChart',
+        type: 'pie',
+        options3d: {
+          enabled: true,
+          alpha: 45
+        }
+      },
+      title: {
+        text: '3D Pie Chart Example'
+      },
+      plotOptions: {
+        pie: {
+          depth: 35,
+          showInLegend: true
+        }
+      },
+      series: data
+    };
+
+    // Create the 3D pie chart
+    var pieChart = new Highcharts.Chart(config);
+  </script>
+</body>
+</html>

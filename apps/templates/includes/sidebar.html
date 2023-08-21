@@ -1,0 +1,58 @@
+<style>
+  body {
+    background-color: #fbfbfb;
+  }
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    padding: 20px 0 0; /* Height of navbar */
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+    width: 240px;
+    z-index: 600;
+  }
+  a {
+    text-decoration: none; /* Remove underline */
+    color: inherit; /* Inherit text color from parent */
+    /* You can also set other styles like font-weight, etc. */
+  }
+
+  a:hover {
+    text-decoration: none; /* Remove underline */
+    color: inherit;
+  }
+  .text {
+    font-size: 25px;
+    font-weight: 400;
+    background-color: gray;
+    width: 100%;
+    margin: 2px auto;
+    text-align: center;
+    color: white;
+    padding: 10px 0;
+  }
+</style>
+<section class="sidebar bg-white">
+  <div style="margin-left: 20px">
+    <a href="/">
+      <h1>E-Cart</h1>
+    </a>
+  </div>
+  <div style="display: flex; flex-direction: column; width: 100%; margin-top: 20px;">
+    <a href="/" class="text">Home</a>
+    {% if user_id %}
+    <a href="{% url 'interaction:reports' user_id=user_id %}" class="text">Reports</a>
+    {% endif %}
+    {% if user_id %}
+    <a href="{% url 'interaction:index' user_id=user_id %}" class="text">Simulate</a>
+    {% endif %}
+    {% if user_id %}
+    <a href="{% url 'interaction:history' user_id=user_id %}" class="text">History</a>
+    {% endif %}
+  </div>
+</section>

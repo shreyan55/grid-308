@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reports</title>
+  <!-- Bootstrap CSS link -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .row-graph{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: 80%;
+      margin: 0 auto;
+      /* background-color: black; */
+      justify-content: space-between;
+      padding: 10px 20px;
+    }
+  </style>
+</head>
+<body>
+  {% include 'includes/navigation.html' %}
+  <div style=" margin-left: 250px;margin-top: 50px; ">
+    <h1 style="text-align: center;">Reports</h1>
+    <div class=" mt-5">
+      <div class="row-graph">
+        <div class="">
+          <canvas id="histogramChart" height="500px" width="500px"></canvas>
+          <h2 style="text-align: center; margin-top: 40px;">Type 1</h2>
+        </div>
+        <div class="ml-2">
+          <canvas id="lineChart" height="500px" width="500px" ></canvas>
+          <h2 style="text-align: center; margin-top: 40px;">Type 1</h2>
+        </div>
+      </div>
+    </div>
+    <div class=" mt-5">
+      <div class="row-graph">
+        <div class="">
+          <!-- <canvas id="histogramChart" height="500px" width="500px"></canvas> -->
+          <canvas id="lineGraph" height="500px" width="500px"></canvas>
+          <h2 style="text-align: center; margin-top: 40px;">Type 1</h2>
+        </div>
+        <div class="ml-2">
+          <canvas id="stackedBarChart" height="500px" width="500px" ></canvas>
+          <h2 style="text-align: center; margin-top: 40px;">Type 1</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+    
+  <!-- Chart.js script -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Sample data for the histogram
+    const data = {
+      labels: ['0-10', '11-20', '21-30', '31-40', '41-50', '51+'],
+      datasets: [{
+        label: 'Age Distribution',
+        data: [8, 15, 20, 30, 25, 12], // Replace with your own data
+        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1
+      }]
+    };
+
+    // Histogram configuration
+    const config = {
+      type: 'bar',
+      data: data,
+      options: {
+        scales: {
+          x: {
+            beginAtZero: true
+          },
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    };
+
+    // Create the histogram chart
+    var ctx = document.getElementById('histogramChart').getContext('2d');
+    var histogramChart = new Chart(ctx, config);
+  </script>
+  
+  <!-- line chart -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Sample data for the line chart
+    const data1 = {
+      labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+      datasets: [{
+        label: 'Monthly Sales',
+        data: [100, 200, 150, 300, 250, 180], // Replace with your own data
+        borderColor: 'rgba(75, 192, 192, 1)',
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        tension: 0.4,
+        fill: true
+      }]
+    };
+
+    // Line chart configuration
+    const config1 = {
+      type: 'line',
+      data: data1,
+      options: {
+        scales: {
+          x: {
+            beginAtZero: true
+          },
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    };
+
+    // Create the line chart
+    var ctx = document.getElementById('lineChart').getContext('2d');
+    var lineChart = new Chart(ctx, config1);
+  </script>
+
+ 
+  <!-- Stack Bar Chart -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Sample data for the stacked bar chart
+    const data4 = {
+      labels: ['Category A', 'Category B', 'Category C', 'Category D', 'Category E'],
+      datasets: [{
+        label: 'Dataset 1',
+        data: [10, 15, 20, 25, 30], // Replace with your own data
+        backgroundColor: 'rgba(75, 192, 192, 0.5)'
+      }, {
+        label: 'Dataset 2',
+        data: [5, 10, 15, 20, 25], // Replace with your own data
+        backgroundColor: 'rgba(255, 99, 132, 0.5)'
+      }]
+    };
+
+    // Stacked bar chart configuration
+    const config4 = {
+      type: 'bar',
+      data: data4,
+      options: {
+        scales: {
+          x: {
+            stacked: true
+          },
+          y: {
+            stacked: true,
+            beginAtZero: true
+          }
+        }
+      }
+    };
+
+    // Create the stacked bar chart
+    var ctx = document.getElementById('stackedBarChart').getContext('2d');
+    var stackedBarChart = new Chart(ctx, config4);
+  </script>
+
+  <!-- line bar -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Sample data: Replace this with your actual data
+    const data5 = {
+      labels: [0.2, 0.4, 0.6, 0.8, 1.0], // Recall values
+      datasets: [
+        {
+          label: 'Precision-Recall Curve',
+          data: [0.75, 0.82, 0.68, 0.91, 0.88], // Precision values
+          borderColor: 'rgba(75, 192, 192, 1)',
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderWidth: 2,
+          pointRadius: 4,
+          pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+        }
+      ]
+    };
+
+    // Configuration for the chart
+    const config5 = {
+      type: 'line',
+      data: data5,
+      options: {
+        scales: {
+          x: {
+            type: 'linear',
+            position: 'bottom',
+            title: {
+              display: true,
+              text: 'Recall'
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Precision'
+            }
+          }
+        }
+      }
+    };
+
+    // Create the chart
+    var ctx = document.getElementById('lineGraph').getContext('2d');
+    var myChart = new Chart(ctx, config5);
+  </script>
+</body>
+</html>

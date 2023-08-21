@@ -1,0 +1,603 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>E-Cart</title>
+    <link
+      rel="shortcut icon"
+      href="./images/supermart-favicon.png"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}" />
+    <link rel="stylesheet" href="./styles/index.css" />
+    <link rel="stylesheet" href="./styles/footer.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="shortcut icon"
+      href="./images/supermart-favicon.png"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}" />
+    <link rel="stylesheet" href="./styles/index.css" />
+    <link rel="stylesheet" href="./styles/footer.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:300,400,700,800|Open+Sans:300,400,700" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css'%}">
+
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css'%}">
+    <link rel="stylesheet" href="{% static 'css/aos.css'%}">
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.css'%}">
+    <link rel="stylesheet" href="{% static 'css/jquery.timepicker.css'%}">
+
+    <link rel="stylesheet" href="{% static 'fonts/ionicons/css/ionicons.min.css'%}">
+    <link rel="stylesheet" href="{% static 'fonts/fontawesome/css/font-awesome.min.css'%}">
+
+    <link rel="stylesheet" href="{% static 'fonts/flaticon/font/flaticon.css' %}">
+
+    <!-- Theme Style -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  </head>
+  <style>
+    body{
+        background-color: #eee;
+    }
+    .section_style{
+        margin: 0 auto;
+        width: 70%;
+        display: flex;
+        justify-content: center; 
+        flex-direction: column;
+        align-items: center;
+        background-color: white;
+        box-shadow: 10px;
+        margin-top: 40px;
+        border-radius: 10px;
+        padding: 30px 10px;
+    }
+
+    /* Stars */
+    .rating {
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: center;
+    }
+    .rating > input{ display:none;}
+
+    .rating > label {
+      position: relative;
+        width: 1em;
+        font-size: 50px;
+        color: #FFD600;
+        cursor: pointer;
+    }
+    .rating > label::before{ 
+      content: "\2605";
+      position: absolute;
+      opacity: 0;
+    }
+    .rating > label:hover:before,
+    .rating > label:hover ~ label:before {
+      opacity: 1 !important;
+    }
+
+    .rating > input:checked ~ label:before{
+      opacity:1;
+    }
+
+    .rating:hover > input:checked ~ label:before{ opacity: 0.4; }
+
+    /* body{ background: #222225; color: white;} */
+    /* Stars */
+    .blueBtn{
+      background-color: #051632 !important;
+       color: white !important;
+       
+    }
+  </style>
+  <body>
+    {% include 'includes/navigation.html' %}
+    <!-- profile, orders -->
+    <section class="section_style">
+    <div style="margin-left: 50px; margin-top: 40px;width: 1000px; overflow: hidden;">
+      <div style="display: flex; flex-direction: row; align-items: center">
+      <div>
+      <h1>Select a Category</h1>
+      <select
+        onchange="getProductByCategory()"
+        id="category"
+        style="
+          width: 350px;
+          height: 40px;
+          border-radius: 5px;
+          margin-top: 20px;
+          padding: 10px 20px;
+        "
+      >
+      <option>None</option>
+      {% for category in categories %}
+        <option value="{{ category.id}}">{{category.category_name}}</option>
+      {% endfor %}
+      </select>
+    </div>
+    <div style="margin-left: 30px">
+      <h1>Select Product</h1>
+      <select
+        id="product"
+        style="
+          width: 350px;
+          height: 40px;
+          border-radius: 5px;
+          margin-top: 20px;
+          padding: 10px 20px;
+        "
+      >
+        <option>None</option>
+        
+      </select>
+    </div>
+  </div>
+    </div>
+    </div>
+    <div style="margin-left: 50px; margin-top: 40px;width: 1000px; overflow: hidden;">
+      <div style="display: flex; flex-direction: row; align-items: center">
+
+        <div>
+          <h1>Select Action</h1>
+          <div style="display: flex; flex-direction: row; align-items: center; justify-content: center;">
+            <select
+              id="action"
+              style="
+                width: 350px;
+                height: 40px;
+                border-radius: 5px;
+                margin-top: 20px;
+                padding: 10px 20px;
+              "
+              onchange="toggleStarRating()"
+            >
+              <option>None</option>
+              {% for value, label in actions %}
+                  <option value="{{ value }}">{{ label }}</option>
+               {% endfor %}
+            </select>
+            <div style="margin-top: 20px;margin-left: 20px; display: none;" id="starRatingContainer">
+              <div class="stars" >
+                <form action=" " id="starRatingForm" class="rating">
+                  <input type="radio" name="star" value="5" id="star-1"><label for="star-1">☆</label>
+                  <input type="radio" name="star" value="4" id="star-2"><label for="star-2">☆</label>
+                  <input type="radio" name="star" value="3" id="star-3"><label for="star-3">☆</label>
+                  <input type="radio" name="star" value="2" id="star-4"><label for="star-4">☆</label>
+                  <input type="radio" name="star" value="1" id="star-5"><label for="star-5">☆</label>
+                  
+                </form>
+              </div>
+             
+            </div>
+            <button id="addButton" onclick="handleAddButtonClick()" class="btn blueBtn" style="margin-left: 20px; margin-top: 20px; ">
+              Add
+            </button>
+            <button id="simulateBtn" onclick="handleSimulateButtonClick()"  class="btn blueBtn" style="margin-left: 20px;margin-top: 20px;">
+              Simulate
+            </button>
+          </div>
+        </div>
+      </div>
+      <div style="width: 1000px; margin-top: 50px">
+        <form >
+          <table
+            id="product_list_table"
+            class="table table-striped table-bordered"
+            style="width: 100%"
+          >
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Category</th>
+                <th>Product Name</th>
+                <th>Action</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>-</th>
+                    <th>-</th>
+                    <th>-</th>
+                    <th>-</th>
+                    <th>-</th>
+                  </tr>
+            </tbody>
+          </table>
+          <div style="display: flex; flex-direction: row;align-items: center; justify-content: end;">
+            <div style="display: flex;justify-content: end; margin-top: 20px; margin-left: 10px;">
+
+            </div>
+            <div style="display: flex;justify-content: end; margin-top: 20px; margin-left: 10px;">
+              <button type="button" class="btn btn-danger" onclick="removeAll()" >Reset</button>
+            </div>
+            <div style="display: flex;justify-content: end; margin-top: 20px; margin-left: 10px;">
+              <button type="button" class="btn blueBtn" id="getResultsButton" onclick="formSubmitHandler()" disabled>Get Results</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+</section>
+    <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#f4b214"/></svg></div>
+
+    <script src="{% static 'js/jquery-3.2.1.min.js'%}"></script>
+    <script src="{% static 'js/jquery-migrate-3.0.1.min.js'%}"></script>
+    <script src="{% static 'js/popper.min.js'%}"></script>
+    <script src="{% static 'js/bootstrap.min.js'%}"></script>
+    <script src="{% static 'js/owl.carousel.min.js'%}"></script>
+    <script src="{% static 'js/jquery.waypoints.min.js'%}"></script>
+
+    <script src="{% static 'js/bootstrap-datepicker.js'%}"></script>
+    <script src="{% static 'js/jquery.timepicker.min.js'%}"></script>
+    <script src="{% static 'js/jquery.stellar.min.js'%}"></script>
+
+    <script src="{% static 'js/aos.js'%}"></script>
+
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/jquery-3.2.1.min.js'%}"></script>
+    <script src="{% static 'js/jquery-migrate-3.0.1.min.js'%}"></script>
+    <script src="{% static 'js/popper.min.js'%}"></script>
+    <script src="{% static 'js/bootstrap.min.js'%}"></script>
+    <script src="{% static 'js/owl.carousel.min.js'%}"></script>
+    <script src="{% static 'js/jquery.waypoints.min.js'%}"></script>
+
+    <script src="{% static 'js/bootstrap-datepicker.js'%}"></script>
+    <script src="{% static 'js/jquery.timepicker.min.js'%}"></script>
+    <script src="{% static 'js/jquery.stellar.min.js'%}"></script>
+
+    <script src="{% static 'js/aos.js'%}"></script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+
+    <script src="{% static 'js/main.js' %}"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+    // Get references to the select elements
+      const categorySelect = document.getElementById("category");
+      const productSelect = document.getElementById("product");
+      const actionSelect = document.getElementById("action");
+      const addButton = document.getElementById("addButton");
+      const simulateBtn = document.getElementById("simulateBtn");
+      // Add event listeners to the select elements
+      categorySelect.addEventListener("change", updateAddButtonState);
+      productSelect.addEventListener("change", updateAddButtonState);
+      actionSelect.addEventListener("change", updateAddButtonState);
+
+      // Initial state
+      updateAddButtonState();
+
+      function updateAddButtonState() {
+          // Check if any of the select elements have the "None" option selected
+          const categoryValue = categorySelect.value;
+          const productValue = productSelect.value;
+          const actionValue = actionSelect.value;
+
+          // Disable the "Add" button if any of the values is "None," otherwise enable it
+          if (categoryValue === "None" || productValue === "None" || actionValue === "None") {
+              addButton.style.color = "black";
+              addButton.disabled = true;
+          } else {
+              addButton.style.color = "white" ;
+              addButton.disabled = false;
+          }
+          if (categoryValue === "None" || productValue === "None") {
+            simulateBtn.style.color = "black";
+            simulateBtn.disabled = true;
+          } else {
+            simulateBtn.style.color = "white";
+            simulateBtn.disabled = false;
+          }
+      }
+  });
+
+
+    </script>
+    <script>
+      function getSelectedRating() {
+          const starRatingForm = document.getElementById("starRatingForm");
+          const ratingInputs = starRatingForm.querySelectorAll("input[type='radio']");
+
+          for (const input of ratingInputs) {
+            if (input.checked) {
+              return input.value;
+            }
+          }
+
+          // If no rating is selected, return null or handle as needed
+          return null;
+      }
+    </script>
+    <script>
+      function updateGetResultsButton() {
+          const getResultsButton = document.getElementById("getResultsButton");
+          if (selectedProducts.length > 0) {
+              getResultsButton.removeAttribute("disabled");
+          } else {
+              getResultsButton.setAttribute("disabled", "disabled");
+          }
+      }
+      function toggleStarRating() {
+        const selectedOption = document.getElementById("action");
+        const starRatingContainer = document.getElementById("starRatingContainer");
+
+        // Get the selected value from the <select> element
+        const selectedValue = selectedOption.value;
+
+        // Check if the selected value is "rating"
+        if (selectedValue === "rating") {
+          // Show the star rating container
+          starRatingContainer.style.display = "block";
+        } else {
+          // Hide the star rating container
+          starRatingContainer.style.display = "none";
+        }
+      }
+    </script>
+    <script>
+      function handleSimulateButtonClick() {
+    const actionOptions = [
+        { value: 'action1_value', textContent: 'Click' },
+        { value: 'action2_value', textContent: 'Wishlist' },
+        { value: 'action2_value', textContent: 'Cart' },
+        { value: 'action2_value', textContent: 'Order' },
+        { value: 'action2_value', textContent: 'Rating' },
+        // ... add more action options
+    ];
+    const categorySelected = document.getElementById("category");
+    const category = categorySelected.options[categorySelected.selectedIndex].textContent;
+    const productSelected = document.getElementById('product');
+    const product = productSelected.options[productSelected.selectedIndex].textContent;
+
+    // Generate a random number of rows to add (between 1 and 10)
+    const maxRowsToAdd = 10;
+    const numRowsToAdd = Math.min(Math.floor(Math.random() * maxRowsToAdd) + 1, maxRowsToAdd);
+
+    for (let i = 0; i < numRowsToAdd; i++) {
+        // Generate a random action for each row
+        const randomActionIndex = Math.floor(Math.random() * actionOptions.length);
+        const randomAction = actionOptions[randomActionIndex];
+
+        if (randomAction.textContent === 'Rating') {
+            // If the randomly selected action is "Rating," also add a random rating between 1 and 5
+            const randomRating = Math.floor(Math.random() * 5) + 1;
+            sendData.push({ product_id: productSelected.value, interaction: randomAction.value, rating: randomRating });
+            const selectedProduct = {
+                category: category,
+                product: product,
+                action: `${randomAction.textContent} (${randomRating})`,
+                product_value: productSelected.value,
+            };
+            selectedProducts.push(selectedProduct);
+        } else {
+            sendData.push({ product_id: productSelected.value, interaction: randomAction.value });
+            const selectedProduct = {
+                category: category,
+                product: product,
+                action: randomAction.textContent,
+                product_value: productSelected.value,
+            };
+            selectedProducts.push(selectedProduct);
+        }
+    }
+
+    console.log("Generated data:", selectedProducts);
+    updateTable(); // Update the table with the new data
+}
+
+    </script>
+    <script>
+
+        let selectedProducts = [];
+        let sendData = [];
+
+        function formSubmitHandler() {
+          console.log("senddata",sendData);
+          var csrftoken = getCookie('csrftoken');
+          const currentPathname = window.location.pathname;
+          console.log(currentPathname);
+          const pattern = /\/interaction\/(\d+)\//;
+          const match = currentPathname.match(pattern);
+          let id=match[1];
+          var apiUrl = `/interaction/create/${id}/`;
+          
+          var dropdown = document.getElementById("category");
+
+          // Your API request data
+          var requestData = {
+              "interactions": sendData
+          };
+          
+          $.ajax({
+              url: apiUrl,
+              type: "POST",
+              headers: {
+                  "X-CSRFToken": csrftoken, // Set the CSRF token in the header
+              },
+              data: JSON.stringify(requestData),
+              contentType: "application/json",
+              dataType: "json",
+              success: function(response) {
+                  // Handle the API response here
+                  console.log(response);
+                  if (response) {
+                    const result_id = response.result_id; 
+                    // Adjust this based on the actual response structure
+                    console.log("id",result_id);
+                    const redirectURL = `interaction/result/${result_id}`;
+                    window.location.pathname = redirectURL;
+                  } 
+              },
+              error: function(error) {
+                  // Handle error here
+                  console.log(error);
+              }
+          });
+        }
+        function handleAddButtonClick()
+        {
+            const categorySelected=document.getElementById("category")
+            const category=categorySelected.options[categorySelected.selectedIndex].textContent;
+            const productSelected=document.getElementById('product')
+            const product=productSelected.options[productSelected.selectedIndex].textContent;
+            const actionSelected=document.getElementById('action')
+            const action=actionSelected.options[actionSelected.selectedIndex].textContent;
+            console.log("action",action);
+            let selectedAction=action ;
+            // stars
+            
+            if (action === "Rating") {
+             const selectedRating = getSelectedRating();
+        
+        // Only add the rating if it's not null
+            if (selectedRating !== null) {
+                sendData.push({ product_id: productSelected.value, interaction: actionSelected.value, rating: selectedRating });
+                selectedAction = `${action} (${selectedRating})`;
+            } else {
+                sendData.push({ product_id: productSelected.value, interaction: actionSelected.value, rating: null });
+            }
+            } else {
+                // If the action is not "rating," add a null rating
+                sendData.push({ product_id: productSelected.value, interaction: actionSelected.value, rating: null });
+            }
+            // stars
+            // console.log("*****",productSelected,productSelected.value);
+            // sendData.push({product_id: productSelected.value, interaction: actionSelected.value,rating:selectedRating});
+            console.log(sendData);
+            
+            const selectedProduct={
+                category:category,
+                product:product,
+                action:selectedAction,
+                product_value: productSelected.value,
+            };
+            selectedProducts.push(selectedProduct);
+            updateTable();
+        }
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        function getProductByCategory(){
+          var csrftoken = getCookie('csrftoken');
+        
+          // Define your API URL
+          var apiUrl = "/interaction/list/";
+
+          var dropdown = document.getElementById("category");
+          
+          var categoryId = dropdown.value;
+          console.log("%%%%%",categoryId);
+          // console.log(typeof(categoryId));
+
+          // Your API request data
+          var requestData = {
+              "category_id": parseInt(categoryId)
+          };
+
+          // Make the AJAX call
+          $.ajax({
+              url: apiUrl,
+              type: "POST",
+              headers: {
+                  "X-CSRFToken": csrftoken, // Set the CSRF token in the header
+              },
+              data: JSON.stringify(requestData),
+              contentType: "application/json",
+              dataType: "json",
+              success: function(response) {
+                  // Handle the API response here
+                  const product=document.getElementById("product");
+                  const empty=document.createElement("option");
+                  product.innerHTML="";
+                  empty.value = "none";
+                  empty.textContent ="None";
+                  product.appendChild(empty);
+                  response.products.map((item,index)=>{
+                    const option1 = document.createElement("option");
+                    option1.value = item.pid;
+                    option1.textContent = item.name;
+                    product.appendChild(option1);
+                  })
+                  // console.log(response);
+              },
+              error: function(error) {
+                  // Handle error here
+                  console.log(error);
+              }
+          });
+        }
+        function updateTable()
+        {
+            const tableBody=document.querySelector("#product_list_table tbody");
+            tableBody.innerHTML="";
+            selectedProducts.map((product,index)=>{
+                const row=document.createElement("tr");
+                row.innerHTML=`
+                <td>${index+1}</td>
+                <td>${product.category}</td>
+                <td>${product.product}</td>
+                <td>${product.action}</td>
+                <td><button onclick="removeProduct(${index})" class="btn btn-danger">Remove</button></td>
+                `;
+                tableBody.appendChild(row);
+            });
+            updateGetResultsButton();
+        }
+        function removeProduct(index)
+        {
+            selectedProducts.splice(index,1);
+            sendData.splice(index,1);
+            updateGetResultsButton();
+        }
+        function removeAll()
+        {
+            const tableBody=document.querySelector("#product_list_table tbody");
+            tableBody.innerHTML="";
+            selectedProducts = [];
+            sendData=[]
+            updateGetResultsButton();
+        }
+    </script>
+  </body>
+</html>
+<script type="module" src="./scripts/index.js"></script>
+<script src="./scripts/nav.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+
