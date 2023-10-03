@@ -41,6 +41,9 @@ Solution: Utilize content-based recommendations initially, based on the attribut
 collaborative recommendations as more interaction data becomes available.
 </br>
 </br>
+
+#### This is the data set used for the project: https://www.kaggle.com/datasets/PromptCloudHQ/flipkart-products
+
 #### This is the block diagram of the approach of solution of this project:
 ![WhatsApp Image 2023-10-03 at 23 43 07](https://github.com/shreyan55/grid-308/assets/78748065/e2e13f36-7736-4e64-87de-1d03675c58a1)
 
